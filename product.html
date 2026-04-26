@@ -312,31 +312,73 @@
 <body>
 
 <nav>
-  <a href="andrews-bodega-v2.html" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-icon">🍍</div>
     <div class="logo-text">ANDREW'S<br>BODEGA</div>
   </a>
-  <a href="andrews-bodega-v2.html" class="back-btn">← Back to Shop</a>
+  <a href="index.html" class="back-btn">← Back to Shop</a>
 </nav>
 
 <main>
-<!-- CHECKOUT -->
+
+  <!-- PRODUCT HERO CARD -->
+  <div class="product-hero">
+    <div class="product-label-card">
+      <div class="product-label-top">
+        <div class="product-category" id="prodCategory">Creator</div>
+        <div class="product-name-big" id="prodName">CREATOR<br><span class="accent">BLUEPRINT</span><br>BLEND</div>
+      </div>
+      <div class="product-label-mid">
+        <div class="product-underline-bar"></div>
+      </div>
+      <div class="product-visual" id="prodVisual">
+        <div class="product-visual-inner">
+          <div class="product-visual-emoji" id="prodEmoji">📘</div>
+          <div class="product-visual-label" id="prodVisualLabel">Creator Bundle</div>
+        </div>
+      </div>
+      <div class="product-label-body">
+        <div class="product-price-row">
+          <div class="product-price" id="prodPrice">$299</div>
+          <div class="product-by">By Andrew Paul</div>
+        </div>
+        <div class="product-desc" id="prodDesc">
+          Everything you need to build a successful creator business. Includes PowerGrades, LUTs, business strategy guides, and Andrew's complete creator blueprint — all in one package.
+        </div>
+        <div class="product-features" id="prodFeatures">
+          <div class="feature-item"><div class="feature-dot">✓</div> Instant digital download</div>
+          <div class="feature-item"><div class="feature-dot">✓</div> Works with DaVinci Resolve</div>
+          <div class="feature-item"><div class="feature-dot">✓</div> Lifetime access & updates</div>
+          <div class="feature-item"><div class="feature-dot">✓</div> 30-day money back guarantee</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT -->
   <div class="checkout-section">
     <div class="checkout-card">
       <div class="checkout-header">
         <div class="checkout-header-title">Complete your order</div>
-        <div class="checkout-total" id="checkoutTotal"></div>
+        <div class="checkout-total" id="checkoutTotal">$299</div>
       </div>
       <div class="checkout-body">
         <div class="checkout-label">Choose how to pay</div>
 
-        <a href="#" class="pay-btn pay-paypal" id="paypalBtn" onclick="handlePay(); return false;">
-          <span class="pay-icon"></span>
-          <span>Pay with PayPal or Visa card</span>
+        <a href="#" class="pay-btn pay-paypal" onclick="handlePay('PayPal'); return false;">
+          <span class="pay-icon">🅿</span>
+          <span>Pay with PayPal</span>
+        </a>
+
+        <div class="pay-divider"><span>or</span></div>
+
+        <a href="#" class="pay-btn pay-stripe" onclick="handlePay('Stripe'); return false;">
+          <span class="pay-icon">💳</span>
+          <span>Pay with Stripe</span>
         </a>
 
         <div class="checkout-secure">
-          🔒 <span>Secure checkout powered by <strong>PayPal</strong> & <strong>Visa card</strong></span>
+          🔒 <span>Secure checkout powered by <strong>PayPal</strong> &amp; <strong>Stripe</strong></span>
         </div>
       </div>
     </div>
@@ -359,32 +401,29 @@
     'creator-blueprint-blend': {
       category: 'Creator',
       name: 'CREATOR<br><span class="accent">BLUEPRINT</span><br>BLEND',
-      price: '$35',
+      price: '$299',
       emoji: '📘',
       visualLabel: 'Creator Bundle',
       desc: 'Everything you need to build a successful creator business. Includes PowerGrades, LUTs, business strategy guides, and Andrew\'s complete creator blueprint — all in one package.',
-      features: ['Instant digital download','Works with DaVinci Resolve','Complete business blueprint','30-day money back guarantee'],
-      paypalLink: 'https://www.paypal.com/ncp/payment/35US4XN8JEJXC'
+      features: ['Instant digital download','Works with DaVinci Resolve','Complete business blueprint','30-day money back guarantee']
     },
     'film-fresh-grade': {
       category: 'Film',
       name: 'FILM<br><span class="accent">FRESH</span><br>GRADE',
-      price: '$135',
+      price: '$59',
       emoji: '🎬',
       visualLabel: 'Film LUT Pack',
       desc: 'Cinematic film LUTs inspired by real 35mm film stocks. One-click grading for any camera. Compatible with all major log formats — BMPCC, Sony S-Log, Canon Log, ARRI LogC.',
-      features: ['20+ film-inspired LUTs','All major log formats','Instant digital download','Works with DaVinci Resolve'],
-      paypalLink: 'https://www.paypal.com/ncp/payment/JM7FPKVJRQHFW'
+      features: ['20+ film-inspired LUTs','All major log formats','Instant digital download','Works with DaVinci Resolve']
     },
     'colour-grade-suite': {
       category: 'Colour',
       name: 'COLOUR<br>GRADE<br><span class="accent">SUITE®</span>',
-      price: '$65',
+      price: '$149',
       emoji: '🎨',
       visualLabel: 'Colour Suite',
       desc: 'The complete one-click colour system. PowerGrades + LUTs + camera normalization nodes. Takes your footage from flat log to cinematic in a single click.',
-      features: ['Full PowerGrade system','Camera normalization nodes','One-click colour output','Lifetime access & updates'],
-      paypalLink: 'https://www.paypal.com/ncp/payment/RPE9H4VUD3UWL'
+      features: ['Full PowerGrade system','Camera normalization nodes','One-click colour output','Lifetime access & updates']
     }
   };
 
@@ -425,13 +464,10 @@
     </a>
   `).join('');
 
-  // Set PayPal button link
-  document.getElementById('paypalBtn').href = product.paypalLink;
-  document.getElementById('paypalBtn').onclick = null;
-
-  // Pay handler (fallback)
-  function handlePay() {
-    window.location.href = product.paypalLink;
+  // Pay handler
+  function handlePay(method) {
+    showToast(`Redirecting to ${method}... 🚀`);
+    // Connect your real PayPal / Stripe link here per product
   }
 
   function showToast(msg) {
