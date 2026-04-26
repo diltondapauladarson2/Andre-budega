@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew's Bodega</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;600&family=Anton&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #5b7db1;
+    --blue-dark: #3a5a8a;
+    --blue-light: #a8c0de;
+    --red: #cc2222;
+    --yellow: #f5e86e;
+    --cream: #f0ece0;
+    --gray-roof: #6a6a6a;
+    --gray-light: #b0b0b0;
+    --white: #ffffff;
+    --text-dark: #1a1a1a;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #e8e4d8;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px;
+    background: transparent;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-icon {
+    width: 48px; height: 48px;
+    background: #f5c518;
+    border-radius: 50%;
+    border: 3px solid #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 2px 2px 0 #1a1a1a;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: 'Anton', sans-serif;
+    font-size: 20px; line-height: 1.05;
+    color: #1a1a1a;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+  }
+  .nav-menu-btn {
+    width: 38px; height: 38px;
+    background: var(--red);
+    border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #1a1a1a;
+    transition: transform 0.15s;
+  }
+  .nav-menu-btn:hover { transform: scale(1.1); }
+  .plus {
+    color: white; font-size: 24px; font-weight: 300; line-height: 1;
+  }
+
+  /* ── HERO / STOREFRONT ── */
+  #hero {
+    width: 100%; min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #87CEEB; /* sky */
+  }
+
+  /* Sky gradient */
+  .sky {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 18%;
+    background: linear-gradient(to bottom, #87CEEB 0%, #b0d4f0 100%);
+  }
+
+  /* Roof */
+  .roof {
+    position: absolute; top: 14%; left: 0; right: 0;
+    height: 52%;
+    background: #5a5a5a;
+    /* Shingle texture via repeating pattern */
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px, transparent 38px,
+        rgba(0,0,0,0.18) 38px, rgba(0,0,0,0.18) 40px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0px, transparent 28px,
+        rgba(0,0,0,0.12) 28px, rgba(0,0,0,0.12) 30px
+      );
+    background-color: #585858;
+  }
+  /* Roof red fascia strip */
+  .roof::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 14%;
+    background: #b03a2a;
+  }
+
+  /* Main sign */
+  .main-sign {
+    position: absolute;
+    top: 22%; left: 50%; transform: translateX(-50%);
+    width: 82%;
+    background: #4a6eb5;
+    border: 5px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 18px 24px;
+    text-align: center;
+    box-shadow: 0 6px 0 #1a1a1a, inset 0 0 40px rgba(255,255,255,0.08);
+    /* neon glow */
+    filter: drop-shadow(0 0 18px rgba(100,140,220,0.5));
+  }
+  .main-sign-text {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(42px, 10vw, 80px);
+    color: #ffffff;
+    line-height: 1;
+    text-shadow:
+      3px 3px 0 rgba(0,0,0,0.3),
+      0 0 20px rgba(200,220,255,0.4);
+    letter-spacing: 1px;
+  }
+  /* Sign brackets */
+  .sign-bracket {
+    position: absolute; bottom: -5px;
+    width: 4px; height: 36px;
+    background: #2a2a2a;
+  }
+  .sign-bracket.left { left: 30%; }
+  .sign-bracket.right { right: 30%; }
+
+  /* Open sign */
+  .open-sign {
+    position: absolute;
+    top: 53%; left: 50%; transform: translateX(-50%);
+    background: #f5f0e8;
+    border: 3px solid #cc6644;
+    border-radius: 8px;
+    padding: 12px 28px;
+    text-align: center;
+    /* wavy border effect */
+    box-shadow: 0 4px 0 #cc6644, inset 0 0 0 4px #f5f0e8, inset 0 0 0 7px #e07755;
+  }
+  .open-sign::before, .open-sign::after {
+    content: '';
+    position: absolute;
+    top: -28px; 
+    width: 2px; height: 28px;
+    background: #2a2a2a;
+  }
+  .open-sign::before { left: 30%; }
+  .open-sign::after { right: 30%; }
+  .open-text {
+    font-family: 'Caveat', cursive;
+    font-size: 32px; font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  /* Door frame area */
+  .door-area {
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 88%;
+    height: 46%;
+    display: flex; gap: 4px; align-items: flex-start;
+  }
+
+  /* Doormat / header beam */
+  .door-beam {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50px;
+    background: #aaaaaa;
+    border: 3px solid #2a2a2a;
+    border-bottom: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .door-sensor {
+    width: 80px; height: 22px;
+    background: #333;
+    border-radius: 4px;
+    border: 2px solid #555;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .door-sensor-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #666;
+  }
+
+  /* The two door panels */
+  .doors-container {
+    position: absolute;
+    top: 50px; left: 0; right: 0; bottom: 0;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .door-left, .door-right {
+    flex: 1;
+    position: relative;
+    background: #c8d8e8;
+    border: 3px solid #2a2a2a;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transform-origin: left center;
+  }
+  .door-right {
+    transform-origin: right center;
+    border-left: none;
+  }
+
+  /* Door glass reflection */
+  .door-glass {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(180,210,240,0.6) 40%, rgba(150,190,230,0.4) 100%);
+  }
+  .door-handle {
+    position: absolute;
+    top: 50%; 
+    width: 12px; height: 60px;
+    background: #444;
+    border-radius: 6px;
+    border: 2px solid #2a2a2a;
+    transform: translateY(-50%);
+  }
+  .door-left .door-handle { right: 10px; }
+  .door-right .door-handle { left: 10px; }
+
+  /* Inside the store (visible through door gap) */
+  .store-interior {
+    position: absolute;
+    top: 50px; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, #c8d8f0 0%, #a8c0e0 60%, #f0f0f0 100%);
+    z-index: -1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    padding-top: 20px;
+    overflow: hidden;
+  }
+
+  /* When door opens, transform applied by JS */
+  .door-open .door-left { transform: perspective(800px) rotateY(-75deg); }
+  .door-open .door-right { transform: perspective(800px) rotateY(75deg); }
+
+  /* ── INTERIOR / SCROLL SECTION ── */
+  #interior {
+    background: linear-gradient(to bottom, #a8c4e0 0%, #c0d4ec 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .interior-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, #b0c8e8 0%, #c8d8f0 30%, #e8eef8 60%, #f0f0f0 100%);
+  }
+
+  /* Checkerboard floor at bottom */
+  .floor {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background-image:
+      repeating-conic-gradient(#ddd 0% 25%, #f8f8f8 0% 50%);
+    background-size: 40px 40px;
+    opacity: 0.7;
+  }
+
+  .fresh-drop-section {
+    position: relative; z-index: 2;
+    padding: 60px 20px 40px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* "Fresh Drop!" banner */
+  .fresh-drop-banner {
+    background: #a8c0e0;
+    width: 85%; max-width: 340px;
+    border-radius: 8px;
+    padding: 24px 28px 20px;
+    position: relative;
+    border: 3px solid rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+  .fresh-drop-badge {
+    position: absolute;
+    left: -18px; top: 18px;
+    background: var(--red);
+    color: white;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 18px;
+    padding: 10px 14px;
+    clip-path: polygon(50% 0%,61% 10%,73% 5%,80% 15%,93% 15%,93% 28%,100% 38%,93% 48%,93% 62%,80% 62%,73% 72%,61% 67%,50% 77%,39% 67%,27% 72%,20% 62%,7% 62%,7% 48%,0% 38%,7% 28%,7% 15%,20% 15%,27% 5%,39% 10%);
+    width: 72px; height: 72px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; line-height: 1;
+  }
+  .fresh-drop-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(48px, 12vw, 72px);
+    color: white;
+    line-height: 0.9;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  }
+
+  /* Product box */
+  .product-box {
+    width: 75%; max-width: 280px;
+    background: #4a6eb5;
+    border-radius: 12px;
+    border: 4px solid #2a2a2a;
+    padding: 20px 16px 24px;
+    box-shadow: 6px 6px 0 #2a2a2a;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .product-box-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 26px; color: white;
+    line-height: 1.1; margin-bottom: 4px;
+  }
+  .product-box-sub {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; color: #f5c518;
+    font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;
+  }
+  .product-bowl-img {
+    width: 140px; height: 120px;
+    margin: 0 auto 0;
+    background: linear-gradient(135deg, #e8a040 20%, #d08030 80%);
+    border-radius: 50% 50% 60% 60%;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+  .product-bowl-img::before {
+    content: '🌈';
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    font-size: 40px;
+  }
+  .product-bowl-img::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 35%;
+    background: rgba(255,255,255,0.15);
+    border-radius: 0 0 50% 50%;
+  }
+
+  .see-more-btn {
+    display: block;
+    background: #3a5aaa;
+    color: white;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 20px; letter-spacing: 2px;
+    text-align: center;
+    padding: 14px 40px;
+    border-radius: 50px;
+    border: 3px solid #2a2a2a;
+    box-shadow: 4px 4px 0 #2a2a2a;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    width: 80%; max-width: 300px;
+  }
+  .see-more-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #2a2a2a;
+  }
+  .see-more-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #2a2a2a;
+  }
+
+  /* ── PRODUCTS SECTION ── */
+  #products {
+    background: #b0c4de;
+    padding: 60px 0 40px;
+    position: relative;
+  }
+  #products::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(160,185,220,1), rgba(176,196,222,1));
+  }
+
+  .products-scroll {
+    display: flex; gap: 16px;
+    padding: 0 20px 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .products-scroll::-webkit-scrollbar { display: none; }
+
+  .product-card {
+    flex-shrink: 0;
+    width: 240px;
+    background: #f0ece4;
+    border-radius: 10px;
+    border: 3px solid #2a2a2a;
+    padding: 24px 20px 20px;
+    scroll-snap-align: start;
+    box-shadow: 4px 4px 0 #2a2a2a;
+    /* paper texture */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f0ece4'/%3E%3Ccircle cx='1' cy='1' r='0.8' fill='%23e8e4dc' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  .card-label {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 13px; letter-spacing: 2px;
+    color: var(--red); margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px; line-height: 1.05;
+    color: #3a5aaa;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .card-title .accent { color: var(--red); }
+  .card-underline {
+    width: 100%; height: 3px;
+    background: linear-gradient(to right, #f5c518, #f0a010);
+    margin-bottom: 12px; border-radius: 2px;
+  }
+  .card-price {
+    font-family: 'Anton', sans-serif;
+    font-size: 52px; line-height: 1;
+    color: var(--red);
+  }
+  .card-by {
+    font-size: 11px; color: #666; letter-spacing: 1px;
+    font-style: italic; margin-top: 4px;
+  }
+
+  /* ── CASHIER SECTION ── */
+  #cashier {
+    background: linear-gradient(to bottom, #e8e4d0 0%, #ddd8c0 100%);
+    min-height: 100vh;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* Shelves background */
+  .shelves-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 40%;
+    background: #d8d0b8;
+    overflow: hidden;
+  }
+  .shelf {
+    position: absolute; left: 0; right: 0;
+    height: 8px; background: #b8a888;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .shelf:nth-child(1) { top: 22%; }
+  .shelf:nth-child(2) { top: 50%; }
+  .shelf:nth-child(3) { top: 78%; }
+
+  /* Shelf items */
+  .shelf-items {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: flex-end; gap: 12px;
+    padding: 0 20px;
+    overflow: hidden;
+  }
+  .shelf-item {
+    width: 40px; height: 55px;
+    border-radius: 4px;
+    border: 2px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+
+  .speech-bubble {
+    position: relative; z-index: 2;
+    margin-top: 60px;
+    background: #f0ece8;
+    border: 3px solid #3a5aaa;
+    border-radius: 14px;
+    padding: 24px 28px;
+    width: 82%; max-width: 340px;
+    box-shadow: 4px 4px 0 rgba(58,90,170,0.2);
+  }
+  .speech-bubble-hey {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 42px; color: var(--red); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .speech-bubble-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px; color: var(--red);
+    font-weight: 700; line-height: 1.2;
+  }
+
+  .cashier-character {
+    position: relative; z-index: 2;
+    width: 90%; max-width: 360px;
+    margin-top: 20px;
+    /* Represents the Andrew character */
+  }
+  .character-img-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(to bottom, #d4c0a0 0%, #c8b090 100%);
+    border-radius: 20px 20px 0 0;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  }
+
+  /* Stylized cartoon cashier (CSS art) */
+  .cashier-counter {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 28%;
+    background: #e8e0d0;
+    border-top: 4px solid #c8b890;
+  }
+  .cashier-body {
+    position: absolute; bottom: 27%; left: 50%; transform: translateX(-50%);
+    width: 65%;
+  }
+  .cashier-vest {
+    width: 100%; height: 160px;
+    background: #4a7abf;
+    border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+    position: relative;
+    border: 3px solid #2a2a2a;
+  }
+  .cashier-vest::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 35%; height: 100%;
+    background: #f0f0f0;
+  }
+  .name-tag {
+    position: absolute; bottom: 20px; left: 12px;
+    background: white;
+    border: 2px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 12px; letter-spacing: 1px;
+    color: #2a2a2a;
+  }
+  .name-tag::before {
+    content: '';
+    position: absolute; top: 2px; left: 2px;
+    right: 2px; height: 5px;
+    background: linear-gradient(to right, #e05050, #f5c518, #5050e0);
+    border-radius: 1px;
+  }
+  .cashier-head {
+    width: 80%; margin: 0 auto;
+    aspect-ratio: 1;
+    background: #e8c090;
+    border-radius: 50% 50% 45% 45%;
+    border: 3px solid #2a2a2a;
+    position: relative;
+    margin-bottom: -4px;
+  }
+  .cashier-eyes {
+    position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%);
+    width: 60%; display: flex; justify-content: space-between;
+  }
+  .eye {
+    width: 22%; aspect-ratio: 1;
+    background: white;
+    border: 2px solid #2a2a2a;
+    border-radius: 50%;
+    position: relative;
+  }
+  .eye::after {
+    content: '';
+    position: absolute; bottom: 20%; left: 20%;
+    width: 55%; height: 30%;
+    background: #2a2a2a;
+    border-radius: 2px;
+    /* droopy eyes */
+  }
+  .cashier-mouth {
+    position: absolute; bottom: 22%; left: 50%; transform: translateX(-50%);
+    width: 30%; height: 4px;
+    background: #c08060;
+    border-radius: 2px;
+  }
+  .cashier-beard {
+    position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
+    width: 55%; height: 18%;
+    background: #7a6050;
+    border-radius: 0 0 8px 8px;
+    opacity: 0.7;
+  }
+  .cashier-cap {
+    position: absolute; top: -18%; left: 50%; transform: translateX(-50%);
+    width: 110%;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .cap-brim {
+    width: 120%; height: 14px;
+    background: #2a5a8a;
+    border-radius: 4px 4px 0 0;
+    border: 2px solid #2a2a2a;
+  }
+  .cap-top {
+    width: 90%; height: 44px;
+    background: #d4c8a8;
+    border: 2px solid #2a2a2a;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cap-text {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 8px; letter-spacing: 1px;
+    color: #2a7a8a; text-transform: uppercase;
+  }
+  .cashier-arm {
+    position: absolute; bottom: 0; 
+    width: 28%; height: 80px;
+    background: #e8c090;
+    border: 2px solid #2a2a2a;
+    border-radius: 8px;
+    bottom: 14%;
+  }
+  .cashier-arm.left { left: 8%; transform: rotate(-10deg); }
+  .cashier-arm.right { right: 8%; transform: rotate(10deg); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #2a2a2a;
+    padding: 40px 24px 32px;
+    text-align: center;
+  }
+  .footer-logo-text {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px; color: white; letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .footer-links {
+    display: flex; justify-content: center; gap: 24px;
+    flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .footer-links a {
+    font-size: 12px; color: #aaa; text-decoration: none;
+    letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: #f5c518; }
+  .footer-copy {
+    font-size: 11px; color: #666; letter-spacing: 1px;
+  }
+
+  /* Scroll animations */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* Products section label */
+  .section-intro {
+    padding: 0 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .section-intro h2 {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 28px; color: white;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  }
+  .view-all-btn {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 14px;
+    background: white; color: #3a5aaa;
+    border: 2px solid #2a2a2a;
+    border-radius: 50px;
+    padding: 6px 18px;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 2px 2px 0 #2a2a2a;
+    transition: transform 0.15s;
+  }
+  .view-all-btn:hover { transform: scale(1.05); }
+
+  /* Buy buttons on card */
+  .card-buy-btn {
+    display: block; width: 100%;
+    margin-top: 16px;
+    background: #3a5aaa; color: white;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 16px; letter-spacing: 1px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #2a2a2a;
+    box-shadow: 3px 3px 0 #2a2a2a;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card-buy-btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #2a2a2a; }
+  .card-buy-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #2a2a2a; }
+
+  /* ── CHECKOUT MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,0.6);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: #f0ece4;
+    border: 4px solid #2a2a2a;
+    border-radius: 16px;
+    box-shadow: 8px 8px 0 #2a2a2a;
+    width: 100%; max-width: 380px;
+    overflow: hidden;
+    animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    background: #3a5aaa;
+    padding: 20px 24px 16px;
+    position: relative;
+  }
+  .modal-tag {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    color: #a8c0f0; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .modal-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px; color: white;
+    line-height: 1.1;
+  }
+  .modal-price {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px; color: #f5c518;
+    margin-top: 4px;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 16px;
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.15);
+    border: none; border-radius: 50%;
+    color: white; font-size: 18px; line-height: 1;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.3); }
+
+  .modal-body { padding: 24px; }
+  .modal-label {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 13px; letter-spacing: 1px; color: #666;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+
+  /* Payment buttons */
+  .pay-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 14px;
+    border-radius: 10px;
+    border: 2px solid #2a2a2a;
+    box-shadow: 3px 3px 0 #2a2a2a;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-bottom: 12px;
+    text-decoration: none;
+  }
+  .pay-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #2a2a2a; }
+  .pay-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #2a2a2a; }
+
+  .pay-paypal {
+    background: #ffc439; color: #003087;
+  }
+  .pay-stripe {
+    background: #635bff; color: white;
+  }
+
+  .pay-logo {
+    font-size: 22px;
+  }
+
+  .modal-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 4px 0 12px;
+  }
+  .modal-divider::before, .modal-divider::after {
+    content: ''; flex: 1; height: 1px; background: #ccc;
+  }
+  .modal-divider span {
+    font-size: 11px; color: #999; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  .modal-secure {
+    text-align: center;
+    font-size: 10px; color: #999; letter-spacing: 1px;
+    margin-top: 8px;
+  }
+  .modal-secure span { color: #3a5aaa; }
+
+  /* Responsive */
+  @media(min-width: 600px) {
+    .main-sign-text { font-size: 80px; }
+    .products-scroll { padding: 0 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">🍍</div>
+    <div class="logo-text">ANDREW'S<br>BODEGA</div>
+  </div>
+  <button class="nav-menu-btn"><span class="plus">+</span></button>
+</nav>
+
+<!-- HERO: STOREFRONT -->
+<section id="hero">
+  <!-- Sky -->
+  <div class="sky"></div>
+
+  <!-- Roof with shingles -->
+  <div class="roof"></div>
+
+  <!-- Main illuminated sign -->
+  <div class="main-sign">
+    <div class="sign-bracket left"></div>
+    <div class="sign-bracket right"></div>
+    <div class="main-sign-text">ANDREW'S<br>BODEGA</div>
+  </div>
+
+  <!-- Open sign -->
+  <div class="open-sign">
+    <div class="open-text">open</div>
+  </div>
+
+  <!-- Door area -->
+  <div class="door-area">
+    <div class="door-beam">
+      <div class="door-sensor">
+        <div class="door-sensor-dot"></div>
+        <div class="door-sensor-dot"></div>
+        <div class="door-sensor-dot"></div>
+      </div>
+    </div>
+
+    <!-- Interior visible behind doors -->
+    <div class="store-interior" id="storeInterior">
+      <!-- glimpse of inside -->
+      <div style="width:85%;background:#a8c0e0;border-radius:8px;padding:16px 20px;margin-top:10px;opacity:0.9;">
+        <div style="font-family:'Fredoka One',sans-serif;font-size:36px;color:white;line-height:1;text-shadow:2px 2px 0 rgba(0,0,0,0.2);">Fresh<br>Drop!</div>
+      </div>
+    </div>
+
+    <!-- Door panels -->
+    <div class="doors-container" id="doorsContainer">
+      <div class="door-left" id="doorLeft">
+        <div class="door-glass"></div>
+        <!-- Store glimpse in left door glass -->
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.4;">
+          <div style="width:60px;height:60px;background:#cc2222;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);"></div>
+        </div>
+        <div class="door-handle"></div>
+      </div>
+      <div class="door-right" id="doorRight">
+        <div class="door-glass"></div>
+        <div class="door-handle"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERIOR after door opens -->
+<section id="interior">
+  <div class="interior-bg"></div>
+  <div class="floor"></div>
+
+  <div class="fresh-drop-section">
+    <!-- Fresh Drop Banner -->
+    <div class="fresh-drop-banner fade-up">
+      <div class="fresh-drop-badge">NEW</div>
+      <div class="fresh-drop-title">Fresh<br>Drop!</div>
+    </div>
+
+    <!-- Product box -->
+    <div class="product-box fade-up" style="transition-delay:0.15s;">
+      <div class="product-box-title">The Colour<br>Grade Suite®</div>
+      <div class="product-box-sub">One-Click-Colour</div>
+      <div class="product-bowl-img"></div>
+    </div>
+
+    <!-- See More button -->
+    <a href="#products" class="see-more-btn fade-up" style="transition-delay:0.3s;">SEE MORE</a>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-intro">
+    <h2>The Shop</h2>
+    <a href="#" class="view-all-btn">View All</a>
+  </div>
+  <div class="products-scroll">
+
+    <a href="product.html?p=creator-blueprint-blend" class="product-card fade-up" style="text-decoration:none;display:block;">
+      <div class="card-label">Creator</div>
+      <div class="card-title"><span class="accent">CREATOR</span><br>BLUEPRINT<br>BLEND</div>
+      <div class="card-underline"></div>
+      <div class="card-price">$35</div>
+      <div class="card-by">By Andrew Paul</div>
+      <div class="card-buy-btn">Ver Produto →</div>
+    </a> 
+
+    <a href="product.html?p=film-fresh-grade" class="product-card fade-up" style="text-decoration:none;display:block;transition-delay:0.1s;">
+      <div class="card-label">Film</div>
+      <div class="card-title"><span class="accent">FILM</span><br>FRESH<br>GRADE</div>
+      <div class="card-underline"></div>
+      <div class="card-price">$135</div>
+      <div class="card-by">By Andrew Paul</div>
+      <div class="card-buy-btn">Ver Produto →</div>
+    </a>
+
+    <a href="product.html?p=colour-grade-suite" class="product-card fade-up" style="text-decoration:none;display:block;transition-delay:0.2s;">
+      <div class="card-label">Colour</div>
+      <div class="card-title">COLOUR<br>GRADE<br><span class="accent">SUITE®</span></div>
+      <div class="card-underline"></div>
+      <div class="card-price">$65</div>
+      <div class="card-by">By Andrew Paul</div>
+      <div class="card-buy-btn">Ver Produto →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CASHIER / "HEY" SECTION -->
+<section id="cashier">
+  <div class="shelves-bg">
+    <div class="shelf"></div>
+    <div class="shelf"></div>
+    <div class="shelf"></div>
+    <!-- shelf items -->
+    <div class="shelf-items">
+      <div class="shelf-item" style="background:#e8d090;height:50px;"></div>
+      <div class="shelf-item" style="background:#90b8e0;height:65px;"></div>
+      <div class="shelf-item" style="background:#b0d090;height:45px;"></div>
+      <div class="shelf-item" style="background:#e09080;height:55px;"></div>
+      <div class="shelf-item" style="background:#d0a0d0;height:40px;"></div>
+      <div class="shelf-item" style="background:#90d0c0;height:60px;"></div>
+      <div class="shelf-item" style="background:#e8d090;height:50px;"></div>
+      <div class="shelf-item" style="background:#c0a870;height:70px;"></div>
+    </div>
+  </div>
+
+  <!-- Speech bubble -->
+  <div class="speech-bubble fade-up">
+    <div class="speech-bubble-hey">Hey</div>
+    <div class="speech-bubble-text">Thanks for<br>stopping by.</div>
+  </div>
+
+  <!-- CSS Andrew character -->
+  <div class="cashier-character fade-up" style="transition-delay:0.2s;">
+    <div class="character-img-placeholder">
+      <div class="cashier-counter"></div>
+      <div class="cashier-arm left"></div>
+      <div class="cashier-arm right"></div>
+      <div class="cashier-body">
+        <div class="cashier-head">
+          <div class="cashier-cap">
+            <div class="cap-top"><span class="cap-text">Rockwalkers</span></div>
+            <div class="cap-brim"></div>
+          </div>
+          <div class="cashier-eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+          <div class="cashier-mouth"></div>
+          <div class="cashier-beard"></div>
+        </div>
+        <div class="cashier-vest">
+          <div class="name-tag">ANDREW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-text">ANDREW'S BODEGA</div>
+  <div class="footer-links">
+<a href="mailto:andrew@andrewsbodega.com">Contact</a>
+<a href="https://www.instagram.com/andrews_life?igsh=NnJzYmR4czRid3li" target="_blank" rel="noopener">Instagram</a>
+<a href="https://youtube.com/@andrewpaul1?si=Ah33yO5nlZfZWmD9" target="_blank" rel="noopener">YouTube</a>
+```
+  </div>
+  <div class="footer-copy">© 2026 Andrew's Bodega. All rights reserved.</div>
+</footer>
+
+<script>
+  const doorLeft = document.getElementById('doorLeft');
+  const doorRight = document.getElementById('doorRight');
+
+  window.addEventListener('scroll', () => {
+    const heroHeight = document.getElementById('hero').offsetHeight;
+    const progress = Math.min(window.scrollY / (heroHeight * 0.4), 1);
+    const angle = progress * 78;
+    doorLeft.style.transform = `perspective(900px) rotateY(-${angle}deg)`;
+    doorRight.style.transform = `perspective(900px) rotateY(${angle}deg)`;
+    document.querySelectorAll('.fade-up').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.88)
+        el.classList.add('visible');
+    });
+  });
+
+  document.querySelectorAll('.fade-up').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.88)
+      el.classList.add('visible');
+  });
+</script>
+</body>
+</html>
